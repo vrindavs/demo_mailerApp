@@ -7,8 +7,8 @@
    port: 465,
    pool: true,
    auth: {
-     user: "vrindavs2020@gmail.com",
-     pass: "vrinda2020@",
+     user: "abc@gmail.com",
+     pass: "test",
    },
    secureConnection: false,
    tls: { ciphers: "SSLv3" },
@@ -19,7 +19,7 @@
      const transporter = nodemailer.createTransport(
        poolConfig1
      );
-     mailOptions.from = "vrindavs2020@gmail.com";
+     mailOptions.from = "abc@gmail.com";
  
      transporter.sendMail(mailOptions, function (error, info) {
        if (error) {
