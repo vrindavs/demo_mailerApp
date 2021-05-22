@@ -1,0 +1,9 @@
+{
+    "local":{
+        "database":"DB_A5E8AB_Bizintellis",
+        "username":"DB_A5E8AB_Bizintellis_admin",
+        "dialect":"mssql",
+        "password":"Biz#20!20@s",
+        "host":"sql5056.site4now.net"
+    }
+}
