@@ -55,7 +55,7 @@ const scheduleMail= async function scheduleMail(req, res, next){
 }
 const postMail= async function postMail(reqBody){
     try{
-        let to = reqBody.email;//"vrindavs28@gmail.com"
+        let to = reqBody.email;
         let subject = 'Test mail'
         let body = 'Hi '+reqBody.firstName;
 
@@ -87,7 +87,7 @@ const postMail= async function postMail(reqBody){
                     attachments: [
                         {
                           filename: fileName,
-                          path: "C:/Accubits/apis/exports/sample.csv",
+                          path: fileLocation,
                           content: csv,
                         }
                     ]
@@ -121,7 +121,7 @@ const postMail= async function postMail(reqBody){
                         }
                       ]
                   };
-                let mailStatus =  commonMailer.email(mailOptions, true); // for receipt@mbme.ae mail pass true.
+                let mailStatus =  commonMailer.email(mailOptions, true);
                 if (mailStatus.status){
                   console.log(mailStatus.response)
                   
