@@ -8,10 +8,12 @@ const inserUser = async function inserUserData(params){
     });
 }
 
-const loggerData= async function loggerData(data, res){
-    let 
+const loggerData= async function loggerData(params){
+    let data= logger.create(params);
+    return new Promise((resolve, reject)=>{
+        return(data)? resolve(data):reject(false);
+    });
 }
-
 module.exports={
     inserUser,
     loggerData

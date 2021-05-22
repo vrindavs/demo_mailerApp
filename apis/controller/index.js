@@ -11,7 +11,6 @@ const commonMailer=require('./mailer')
 
 const getUser= async function getUser(req, res, next){
     try{
-        console.log("req controller:",req.body)
         let body = req.body;
         let result= await inserUser(body)
         if(result){
@@ -39,21 +38,23 @@ const getUser= async function getUser(req, res, next){
 const scheduleMail= async function scheduleMail(req, res, next){
     try{
         let body = req.body
-        console.log("body:",body)
         let result = [];
         let callback = await postMail(body)
          result.push(callback)
-        console.log("..callback result ....",callback)
-        
-        //console.log("logger:",logger)
-        res.send({status: true, data: result})
+        let datas={
+            Name:body.firstName,
+            email:body.email,
+            Date: new Date(),
+            response:callback.response
+        }
+        loggerData(datas)
+        res.send({status: true, data: result, error:null})
     } catch(er){
-        console.log("...............",er)
+        res.send({status: false, data:null,error:er })
     }
 }
 const postMail= async function postMail(reqBody){
     try{
-        console.log("reqBody....:",reqBody)
         let to = reqBody.email;//"vrindavs28@gmail.com"
         let subject = 'Test mail'
         let body = 'Hi '+reqBody.firstName;
@@ -91,28 +92,23 @@ const postMail= async function postMail(reqBody){
                         }
                     ]
                   };
-                  console.log("mailOptions if..:",mailOptions)
                 fs.writeFile(pathResolve.resolve(__dirname, `${fileLocation}/${fileName}`), output, function (err) {
                     if (err) {
-                        console.error('Error at file creation', err);
                         throw err;
                     } else {
                         
                           let mailStatus = commonMailer.email(mailOptions, true); 
                           if (mailStatus.status){
-                            console.log(mailStatus.response)
                             resolve(mailStatus);
                             // next mail or end
                             // success
                           }else{
-                            console.log(mailStatus.response)
                             resolve(mailStatus);
                             // failure
                           }
                     }
                 })
             } else {
-                console.log("fileLocation:",fileLocation)
                 const mailOptions = {
                     to: to,
                     subject: subject,
@@ -125,30 +121,13 @@ const postMail= async function postMail(reqBody){
                         }
                       ]
                   };
-                  console.log("else:",mailOptions)
                 let mailStatus =  commonMailer.email(mailOptions, true); // for receipt@mbme.ae mail pass true.
                 if (mailStatus.status){
                   console.log(mailStatus.response)
-                  let data={
-                    Name:reqBody.firstName,
-                    email:reqBody.email,
-                    Date: new Date(),
-                    response:mailStatus.response
-                }
-                console.log("data in logger:",data)
-                loggerData(data)
+                  
                   resolve(mailStatus);
                   // success
-                }else{
-                  console.log(mailStatus.response)
-                  let data={
-                    Name:reqBody.firstName,
-                    email:reqBody.email,
-                    Date: new Date(),
-                    response:mailStatus.response
-                }
-                console.log("data in logger:",data)
-                loggerData(data)
+                }else{                  
                   resolve(mailStatus);
                   // failure
                 }

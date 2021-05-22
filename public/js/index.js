@@ -16,9 +16,7 @@ function submit(){
         data:JSON.stringify(data),
         dataType:"json",
         success:function(response){
-            console.log("response:",response)
             if(response.status==true){
-                console.log("success")
                 sendMail(data);
             }else{
                 console.log("error")
@@ -38,7 +36,6 @@ function sendMail(data){
         data:JSON.stringify(data),
         dataType:"json",
         success:function(response){
-            console.log("response........:",response)
             if(response.status==true){
                 console.log("success mail")
                 //sendMail(data);
